@@ -1,11 +1,5 @@
-// transcription.data.ts
+import Message from "../interfaces/Message";
 
-interface Message {
-    content: string;
-    role: string;
-    start: number;
-    end: number;
-  }
   
   const transcriptionData: Message[] = [
     {
