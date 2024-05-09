@@ -1,5 +1,5 @@
 import React from 'react';
-import Message from '@/interfaces/messages';
+import Message from '../interfaces/Message';
 
 interface TranscriptionProps {
   messages: Message[];
