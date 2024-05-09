@@ -13,6 +13,11 @@ const Transcription: React.FC<TranscriptionProps> = ({ messages }) => {
           <p>{message.content}</p>
         </div>
       ))}
+      <div className="mb-8">
+        <audio className=" bg-slate-50 border " controls>
+          <source src="/audio/TestCall.wav" type="audio/wav" />
+        </audio>
+      </div>
     </div>
   );
 };
