@@ -127,7 +127,7 @@ const useTranscriptionPlayer = () => {
   useEffect(() => {
     const audioElement = audioRef.current;
     if (audioElement) {
-      setDuration(audioElement.duration);
+      setDuration(audioElement.duration || 0);
       audioElement.addEventListener('ended', handleAudioEnded);
       audioElement.addEventListener('timeupdate', handleTimeUpdate);
       return () => {
