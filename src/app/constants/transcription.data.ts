@@ -9,7 +9,7 @@ import Message from "../interfaces/Message";
     "end": 6.331625
     },
     {
-    "content": "Hola María, ¿cómo estás? Estoy viendo en sus redes que estaban mostrando algunas licenciaturas, algo que tenga que ver con tecnología o podría contar un poquito más.",
+    "content": "Hola María, ¿cómo estás? Estoy viendo en sus redes que estaban mostrando algunas licenciaturas, algo que tenga que ver con tecnología o podría contar un poquito más?.",
     "role": "user",
     "start": 7.24,
     "end": 15.562688
@@ -39,10 +39,10 @@ import Message from "../interfaces/Message";
     "end": 51.088
     },
     {
-    "content": "El precio de la Licenciatura en Desarrollo de Software es de 36 mensualidades de dos mil ochocientos pesos mexicanos. ¿Te gustaría saber más sobre los",
+    "content": "El precio de la Licenciatura en Desarrollo de Software es de 36 mensualidades de dos mil ochocientos pesos mexicanos. ¿Te gustaría saber más sobre los beneficios?",
     "role": "agent",
     "start": 52.838,
-    "end": 61.523
+    "end": 62.042
     }
    ];
   
