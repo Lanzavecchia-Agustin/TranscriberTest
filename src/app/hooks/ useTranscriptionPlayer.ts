@@ -57,7 +57,7 @@ const useTranscriptionPlayer = () => {
     const animationFrame = () => {
       if (currentMessageIndex >= transcriptionData.length) {
         if (animationFrameIdRef.current) {
-          cancelAnimationFrame(animationFrameIdRef.current); // Cancelar la animación si hay un identificador almacenado
+          cancelAnimationFrame(animationFrameIdRef.current); 
         }
         setIsAnimating(false);
         return;
@@ -90,7 +90,7 @@ const useTranscriptionPlayer = () => {
           }));
         }
       }
-      animationFrameIdRef.current = requestAnimationFrame(animationFrame); // Almacenar el identificador del próximo frame
+      animationFrameIdRef.current = requestAnimationFrame(animationFrame);
     };
   
     // Comenzar la animación
