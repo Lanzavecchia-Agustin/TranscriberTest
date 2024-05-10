@@ -31,7 +31,9 @@ const PlaybackControls: React.FC<PlaybackControlsProps> = ({
         {/*  Current time display */}
         <div className="text-cyan-500 dark:text-slate-100">{formatTime(currentTime)}</div>
         {/*  Duration display */}
-        <div className="text-slate-500 dark:text-slate-400">{formatTime(duration)}</div>
+        <div className="text-slate-500 dark:text-slate-400">
+          {duration ? formatTime(duration) : '1:02'}
+        </div>
       </div>
       {/*  Play/pause button */}
       <button
