@@ -15,8 +15,9 @@ const useTranscriptionPlayer = () => {
 
   // Refs to store the audio element and list element
   const audioRef = useRef<HTMLAudioElement>(null);
-  const listRef = useRef(null);
-
+  const listRef = useRef<HTMLUListElement>(null);
+  const animationFrameIdRef = useRef<number>();
+  
   // State to store the current time, duration, and other flags
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -48,51 +49,54 @@ const useTranscriptionPlayer = () => {
   const startTypingAnimation = useCallback(() => {
     if (isAnimating) return;
     setIsAnimating(true);
-
+  
     let currentMessageIndex = 0;
     let progress = 0;
     let startTime = transcriptionData[currentMessageIndex].start;
-
-    // Animation frame function to update the typed text and accumulated messages
+  
     const animationFrame = () => {
       if (currentMessageIndex >= transcriptionData.length) {
-        cancelAnimationFrame(animationFrame);
+        if (animationFrameIdRef.current) {
+          cancelAnimationFrame(animationFrameIdRef.current); // Cancelar la animación si hay un identificador almacenado
+        }
         setIsAnimating(false);
         return;
       }
-
+  
       const message = transcriptionData[currentMessageIndex];
       const endTime = message.end;
       const content = message?.content;
-
+  
       const currentTime = audioRef.current?.currentTime;
-      if (currentTime >= startTime && currentTime <= endTime) {
-        // Update the progress and typed text
-        progress = Math.max(0, Math.min(1, (currentTime - startTime) / (endTime - startTime)));
-        const typedTextLength = Math.floor(progress * content.length);
-        setTypedTextAndAccumulatedMessages((prevStates) => ({
-          typedText: content.substring(0, typedTextLength),
-          accumulatedMessages: prevStates.accumulatedMessages,
-        }));
-      } else if (currentTime >= endTime) {
-        // Move to the next message
-        progress = 0;
-        currentMessageIndex++;
-        startTime = transcriptionData[currentMessageIndex]?.start;
-
-        setTypedTextAndAccumulatedMessages((prevStates) => ({
-          typedText: '',
-          accumulatedMessages: [
-            ...prevStates.accumulatedMessages,
-            { id: currentMessageIndex - 1, ...message },
-          ],
-        }));
+      if (currentTime !== undefined && startTime !== undefined && endTime !== undefined) {
+        if (currentTime >= startTime && currentTime <= endTime) {
+          progress = Math.max(0, Math.min(1, (currentTime - startTime) / (endTime - startTime)));
+          const typedTextLength = Math.floor(progress * content.length);
+          setTypedTextAndAccumulatedMessages((prevStates) => ({
+            typedText: content.substring(0, typedTextLength),
+            accumulatedMessages: prevStates.accumulatedMessages,
+          }));
+        } else if (currentTime >= endTime) {
+          progress = 0;
+          currentMessageIndex++;
+          startTime = transcriptionData[currentMessageIndex]?.start;
+  
+          setTypedTextAndAccumulatedMessages((prevStates) => ({
+            typedText: '',
+            accumulatedMessages: [
+              ...prevStates.accumulatedMessages,
+              { id: currentMessageIndex - 1, ...message },
+            ],
+          }));
+        }
       }
-      requestAnimationFrame(animationFrame);
+      animationFrameIdRef.current = requestAnimationFrame(animationFrame); // Almacenar el identificador del próximo frame
     };
-
-    animationFrame();
-  }, [isAnimating]);
+  
+    // Comenzar la animación
+    animationFrameIdRef.current = requestAnimationFrame(animationFrame);
+  }, [audioRef, isAnimating]);
+  
 
   // Toggle play/pause button
   const togglePlay = () => {
